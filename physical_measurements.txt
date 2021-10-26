@@ -1,0 +1,5 @@
+Dimensions of the PCB
+Width - 90mm
+Thickness - 1.65mm
+
+For the added platform, we probably want something around 115 mm long from the back to the middle.
