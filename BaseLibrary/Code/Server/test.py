@@ -76,10 +76,10 @@ pwm=Servo()
 def test_Servo():
     try:
         while True:
-            for i in range(50,110,1):
+            for i in range(50,130,1):
                 pwm.setServoPwm('0',i)
                 time.sleep(0.01)
-            for i in range(110,50,-1):
+            for i in range(130,50,-1):
                 pwm.setServoPwm('0',i)
                 time.sleep(0.01)
             for i in range(80,150,1):
