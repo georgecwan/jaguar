@@ -45,7 +45,7 @@ def test_Motor():
 
 
 from Ultrasonic import *
-ultrasonic=Ultrasonic()                
+ultrasonic=Ultrasonic(27,22)                
 def test_Ultrasonic():
     try:
         while True:
