@@ -41,7 +41,7 @@ def test_Motor():
         PWM.setMotorModel(0, 0, 0, 0)  # Stop
         time.sleep(5)
 
-        PWM.setMotorModel(-1800, -1500, 2000, 2000)  # Left
+        PWM.setMotorModel(-1850, -1500, 2000, 2000)  # Left
         print("The car is turning left")
         time.sleep(1)
 
@@ -62,7 +62,7 @@ def test_Motor():
         PWM.setMotorModel(0, 0, 0, 0)  # Stop
         time.sleep(5)
 
-        PWM.setMotorModel(-1800, -1500, 2000, 2000)  # Left
+        PWM.setMotorModel(-1850, -1500, 2000, 2000)  # Left
         print("The car is turning left")
         time.sleep(1)
 
