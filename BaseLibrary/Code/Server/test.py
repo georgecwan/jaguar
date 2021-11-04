@@ -38,6 +38,9 @@ def test_Motor():
         print("The car is turning left")
         time.sleep(1)
 
+        PWM.setMotorModel(0, 0, 0, 0)  # Stop
+        time.sleep(2)
+
         PWM.setMotorModel(2000, 2000, -1500, -1500)  # Right
         print("The car is turning right")
         time.sleep(1)
