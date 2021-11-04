@@ -35,13 +35,13 @@ def test_Motor():
     try:
         PWM.setMotorModel(1000, 1000, 1000, 1000)  # Forward
         print("The car is moving forward")
-        time.sleep(1)
+        time.sleep(2)
         PWM.setMotorModel(0, 0, 0, 0)  # Stop
         time.sleep(1)
 
         PWM.setMotorModel(-1000, -1000, -1000, -1000)  # Back
         print("The car is going backwards")
-        time.sleep(1)
+        time.sleep(2)
         PWM.setMotorModel(0, 0, 0, 0)  # Stop
         time.sleep(1)
         PWM.setMotorModel(2000, 2000, -1500, -1500)  # Right
