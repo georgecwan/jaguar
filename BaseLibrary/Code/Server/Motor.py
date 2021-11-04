@@ -79,7 +79,7 @@ class Motor:
         self.left_Upper_Wheel(-duty1)
         self.left_Lower_Wheel(-duty2)
         self.right_Upper_Wheel(-duty3)
-        self.right_Lower_Wheel(-duty4*1.2)
+        self.right_Lower_Wheel(-duty4)
 
 
 PWM = Motor()
