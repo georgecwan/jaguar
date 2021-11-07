@@ -1,7 +1,7 @@
 # from multiprocessing.shared_memory import SharedMemory
 # from BaseLibrary.Code.Server.Motor import *
 from cv.faceDetect import Vision
-
+import time
 """
 This shared variable will control what the robot is currently doing.
 It will be shared between the voice recognition process and polled during every robot loop.
@@ -23,11 +23,9 @@ mode = 0
 
 cv = Vision()
 
-(x, y, w, h) = cv.get_bounding_box();
-
-
 # Main robot loop goes here
 while mode != 3:
+    (x, y, w, h) = cv.get_bounding_box();
     print(f"{x}, {y}, {w}, {h}")
     pass  # TODO
 
