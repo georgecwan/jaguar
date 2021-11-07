@@ -25,6 +25,8 @@ class Vision:
 
         return mx, my, mw, mh
 
+    def destroy(self):
+        self.cap.release()
 
 # Testing code
 if __name__ == "__main__":
