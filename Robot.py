@@ -1,5 +1,6 @@
-from multiprocessing.shared_memory import SharedMemory
-from BaseLibrary.Code.Server.Motor import *
+# from multiprocessing.shared_memory import SharedMemory
+# from BaseLibrary.Code.Server.Motor import *
+from cv.faceDetect import Vision
 
 """
 This shared variable will control what the robot is currently doing.
@@ -14,15 +15,20 @@ It will be shared between the voice recognition process and polled during every 
 #     shared_ptr = SharedMemory(name="mode", create=False)
 # and get the address of the buffer.
 # See: https://docs.python.org/3/library/multiprocessing.shared_memory.html
-shared_ptr = SharedMemory(name="mode", create=True, size=1)
-mode = shared_ptr.buf  # Access the mode by writing/reading to mode[0]
+# shared_ptr = SharedMemory(name="mode", create=True, size=1)
+# mode = shared_ptr.buf  # Access the mode by writing/reading to mode[0]
 
 # Initialize the mode to 0
-mode[0] = 0
+mode = 0
+
+cv = Vision()
+
+(x, y, w, h) = cv.get_bounding_box();
 
 
 # Main robot loop goes here
-while mode[0] != 3:
+while mode != 3:
+    print(f"{x}, {y}, {w}, {h}")
     pass  # TODO
 
 
