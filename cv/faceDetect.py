@@ -17,7 +17,7 @@ class Vision:
         )
 
         # Return the bounding box of the largest detected face
-        max_area, mx, my, mw, mh = 0
+        max_area = mx = my = mw = mh = 0
         for (x, y, w, h) in faces:
             if w * h > max_area:
                 max_area = w * h
