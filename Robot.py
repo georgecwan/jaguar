@@ -7,6 +7,8 @@ PWM = Motor()
 
 
 try:
+    idleCount = 0
+    m1i = m2i = m3i = m4i = 0
     # Main robot loop goes here
     while True:
         (x, y, w, h) = cv.get_bounding_box()
@@ -29,10 +31,14 @@ try:
             # Too far
             print("Going forwards")
             m1, m2, m3, m4 = m1 + 1000, m2 + 1000, m3 + 1000, m4 + 1000
+        if m1 == m2 == m3 == m4 == 0 and idleCount < 5:
+            print("No movement")
+            idleCount += 1
+            PWM.setMotorModel(m1i, m2i, m3i, m4i)
         else:
-            # Stop
-            print("No forwards/backwards movement")
-        PWM.setMotorModel(m1, m2, m3, m4)
+            m1i, m2i, m3i, m4i = m1, m2, m3, m4
+            idleCount = 0
+            PWM.setMotorModel(m1, m2, m3, m4)
 
 except KeyboardInterrupt:
     PWM.setMotorModel(0, 0, 0, 0)
