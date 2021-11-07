@@ -13,7 +13,7 @@ try:
         # print(f"{x}, {y}, {w}, {h}")
         relativeX = cv.get_x_center() - x - w / 2
         m1 = m2 = m3 = m4 = 0
-        if abs(relativeX) >= 100:
+        if w != 0 and abs(relativeX) >= 100:
             if relativeX < 0:
                 print("Turning right")
                 m1, m2, m3, m4 = m1 + 500, m2 + 500, m3 - 500, m4 - 500
