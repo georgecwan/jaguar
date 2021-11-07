@@ -25,7 +25,7 @@ try:
                 print("Staying still")
                 PWM.setMotorModel(0, 0, 0, 0)
 except KeyboardInterrupt:
-    PWM.destroy()
+    PWM.setMotorModel(0,0,0,0)
     cv.destroy()
 
 
