@@ -15,11 +15,11 @@ try:
         m1 = m2 = m3 = m4 = 0
         if abs(relativeX) >= 100:
             if relativeX < 0:
-                print("Turning left")
-                m1, m2, m3, m4 = m1 - 200, m2 - 200, m3 + 200, m4 + 200
-            elif relativeX > 0:
                 print("Turning right")
                 m1, m2, m3, m4 = m1 + 200, m2 + 200, m3 - 200, m4 - 200
+            elif relativeX > 0:
+                print("Turning left")
+                m1, m2, m3, m4 = m1 - 200, m2 - 200, m3 + 200, m4 + 200
 
         if w > 120 and h > 120:
             # Too close
