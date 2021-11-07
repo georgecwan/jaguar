@@ -22,7 +22,7 @@ class Vision:
             if w * h > max_area:
                 max_area = w * h
                 (mx, my, mw, mh) = (x, y, w, h)
-        
+
         return (mx, my, mw, mh)
 
 
@@ -46,7 +46,7 @@ if __name__ == "__main__":
             cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
             roi_gray = gray[y:y+h, x:x+w]
             roi_color = img[y:y+h, x:x+w]
-        cv2.imshow('video', img)
+        cv2.imshow('Detect Face', img)
         k = cv2.waitKey(30) & 0xff
         if k == 27: # press 'ESC' to quit
             break
