@@ -75,7 +75,7 @@ while True:
         cv2.rectangle(img,(x,y),(x+w,y+h),YELLOW,2)
         roi_gray = gray[y:y+h, x:x+w]
         roi_color = img[y:y+h, x:x+w]
-    cv2.imshow('video', img)
+    cv2.imshow('bodyTest', img)
     k = cv2.waitKey(30) & 0xff
     if k == 27: # press 'ESC' to quit
         break
