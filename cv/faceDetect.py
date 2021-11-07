@@ -13,7 +13,7 @@ class Vision:
             gray,
             scaleFactor=1.2,
             minNeighbors=5,
-            minSize=(20,20)
+            minSize=(20, 20)
         )
 
         # Return the bounding box of the largest detected face
@@ -23,7 +23,7 @@ class Vision:
                 max_area = w * h
                 (mx, my, mw, mh) = (x, y, w, h)
 
-        return (mx, my, mw, mh)
+        return mx, my, mw, mh
 
 
 # Testing code
@@ -42,12 +42,19 @@ if __name__ == "__main__":
             minNeighbors=5,
             minSize=(20, 20)
         )
+        max_area = mx = my = mw = mh = 0
         for (x,y,w,h) in faces:
             cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
             roi_gray = gray[y:y+h, x:x+w]
             roi_color = img[y:y+h, x:x+w]
+            # Detect largest face
+            if w * h > max_area:
+                max_area = w * h
+                (mx, my, mw, mh) = (x, y, w, h)
+        print(mx, my, mw, mh)
         cv2.imshow('Detect Face', img)
         k = cv2.waitKey(30) & 0xff
+
         if k == 27: # press 'ESC' to quit
             break
     cap.release()
