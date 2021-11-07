@@ -34,6 +34,6 @@ while mode != 3:
 
 
 # Deinitialize shared memory on exit
-time.sleep(5)  # Delay to ensure all processes close the shared ptr first
-shared_ptr.close()
-shared_ptr.unlink()
+# time.sleep(5)  # Delay to ensure all processes close the shared ptr first
+# shared_ptr.close()
+# shared_ptr.unlink()
