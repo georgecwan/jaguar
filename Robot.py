@@ -10,32 +10,46 @@ servo = Servo()
 try:
     servo.setServoPwm('0', 90)
     servo.setServoPwm('1', 110)
+    idleCount = 0
+    m1i = m2i = m3i = m4i = 0  # Forward/backwards values
+    m1t = m2t = m3t = m4t = 0  # Turning Values
     # Main robot loop goes here
     while True:
         (x, y, w, h) = cv.get_bounding_box()
         # print(f"{x}, {y}, {w}, {h}")
         relativeX = cv.get_x_center() - x - w / 2
-        m1 = m2 = m3 = m4 = 0
-        if w != 0 and abs(relativeX) >= 100:
+        if (x, y, w, h) == (0, 0, 0, 0):
+            print("No face detected")
+
+        if w != 0 and abs(relativeX) >= 20:
             if relativeX < 0:
                 print("Turning right")
-                m1, m2, m3, m4 = m1 + 500, m2 + 500, m3 - 500, m4 - 500
+                m1t, m2t, m3t, m4t = 600, 600, 0, 0
             elif relativeX > 0:
                 print("Turning left")
-                m1, m2, m3, m4 = m1 - 500, m2 - 500, m3 + 500, m4 + 500
+                m1t, m2t, m3t, m4t = 0, 0, 600, 600
+        else:
+            print("No turning")
+            m1t = m2t = m3t = m4t = 0
 
-        if w > 120 and h > 120:
+        if w > 100 and h > 100:
             # Too close
             print("Going backwards")
-            m1, m2, m3, m4 = m1 - 1000, m2 - 1000, m3 - 1000, m4 - 1000
+            m1i, m2i, m3i, m4i = -600, -600, -600, -600
+            idleCount = 0
         elif 0 < w < 80 and 0 < h < 80:
             # Too far
             print("Going forwards")
-            m1, m2, m3, m4 = m1 + 1000, m2 + 1000, m3 + 1000, m4 + 1000
+            m1i, m2i, m3i, m4i = 600, 600, 600, 600
+            idleCount = 0
+        elif idleCount < 2:
+            print("Idling")
+            idleCount += 1
         else:
-            # Stop
-            print("No forwards/backwards movement")
-        PWM.setMotorModel(m1, m2, m3, m4)
+            print("No f/b movement")
+            m1i, m2i, m3i, m4i = 0, 0, 0, 0
+
+        PWM.setMotorModel(m1t + m1i, m2t + m2i, m3t + m3i, m4t + m4i)
 
 except KeyboardInterrupt:
     PWM.setMotorModel(0, 0, 0, 0)
