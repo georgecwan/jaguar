@@ -24,10 +24,10 @@ try:
         if w != 0 and abs(relativeX) >= 20:
             if relativeX < 0:
                 print("Turning right")
-                m1t, m2t, m3t, m4t = 300, 300, -300, -300
+                m1t, m2t, m3t, m4t = 600, 600, 0, 0
             elif relativeX > 0:
                 print("Turning left")
-                m1t, m2t, m3t, m4t = -300, -300, 300, 300
+                m1t, m2t, m3t, m4t = 0, 0, 600, 600
 
         if w > 100 and h > 100:
             # Too close
