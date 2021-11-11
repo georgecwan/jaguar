@@ -9,7 +9,7 @@ servo = Servo()
 
 try:
     servo.setServoPwm('0', 90)
-    servo.setServoPwm('1', 110)
+    servo.setServoPwm('1', 120)
     idleCount = 0
     m1i = m2i = m3i = m4i = 0  # Forward/backwards values
     m1t = m2t = m3t = m4t = 0  # Turning Values
