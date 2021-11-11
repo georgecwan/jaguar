@@ -18,6 +18,9 @@ try:
         # print(f"{x}, {y}, {w}, {h}")
         relativeX = cv.get_x_center() - x - w / 2
         m1t = m2t = m3t = m4t = 0  # Turning Values
+        if (x, y, w, h) == (0, 0, 0, 0):
+            print("No face detected")
+            
         if w != 0 and abs(relativeX) >= 75:
             if relativeX < 0:
                 print("Turning right")
