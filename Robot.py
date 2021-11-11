@@ -1,6 +1,7 @@
 from BaseLibrary.Code.Server.Motor import*
 from cv.faceDetect import Vision
 from rpi_ws281x import *
+from BaseLibrary.Code.Server.Led import Led
 import time
 
 cv = Vision()
@@ -37,9 +38,10 @@ try:
             m1i, m2i, m3i, m4i = 800, 800, 800, 800
             led.colorWipe(led.strip, Color(0, 255, 0))
             idleCount = 0
-        elif idleCount < 5:
+        elif idleCount < 2:
             print("Idling")
             idleCount += 1
+            led.colorWipe(led.strip, Color(255, 255, 255))
         else:
             print("No f/b movement")
             m1i, m2i, m3i, m4i = 0, 0, 0, 0
