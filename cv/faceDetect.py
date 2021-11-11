@@ -35,7 +35,7 @@ class Vision:
 if __name__ == "__main__":
     faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     cap = cv2.VideoCapture(0)
-    # print(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    print(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     # cap.set(3, 640) # set Width
     # cap.set(4, 480) # set Height
     while True:
@@ -58,11 +58,11 @@ if __name__ == "__main__":
                 max_area = w * h
                 (mx, my, mw, mh) = (x, y, w, h)
         # print(mx, my, mw, mh)
-        # print(cap.get(cv2.CAP_PROP_FRAME_WIDTH)/2 - mx - mw / 2)
-        cv2.imshow('Detect Face', img)
+        print(cap.get(cv2.CAP_PROP_FRAME_WIDTH)/2 - mx - mw / 2)
+        # cv2.imshow('Detect Face', img)
         k = cv2.waitKey(30) & 0xff
 
         if k == 27: # press 'ESC' to quit
             break
     cap.release()
-    cv2.destroyAllWindows()
+    # cv2.destroyAllWindows()
