@@ -67,7 +67,7 @@ if __name__ == "__main__":
                 max_area = w * h
                 (mx, my, mw, mh) = (x, y, w, h)
         # print(mx, my, mw, mh)
-        print(cap.get(cv2.CAP_PROP_FRAME_WIDTH)/2 - mx - mw / 2)
+        print(160 - mx - mw / 2)
         cv2.imshow('Detect Face', img)
         k = cv2.waitKey(30) & 0xff
 
