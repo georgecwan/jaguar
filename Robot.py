@@ -1,9 +1,11 @@
-from BaseLibrary.Code.Server.Motor import*
+from BaseLibrary.Code.Server.Motor import Motor
+from BaseLibrary.Code.Server.Led import Led
 from cv.faceDetect import Vision
 import time
 
 cv = Vision()
 PWM = Motor()
+led = Led()
 
 
 try:
@@ -27,14 +29,17 @@ try:
             # Too close
             print("Going backwards")
             m1, m2, m3, m4 = m1 - 800, m2 - 800, m3 - 800, m4 - 800
+            led.colorWipe(led.strip, Color(255, 0, 0))
         elif 0 < w < 60 and 0 < h < 60:
             # Too far
             print("Going forwards")
             m1, m2, m3, m4 = m1 + 800, m2 + 800, m3 + 800, m4 + 800
+            led.colorWipe(led.strip, Color(0, 255, 0))
         if m1 == m2 == m3 == m4 == 0 and idleCount < 5:
             print("No movement")
             idleCount += 1
             PWM.setMotorModel(m1i, m2i, m3i, m4i)
+            led.colorWipe(led.strip, Color(0, 0, 255))
         else:
             m1i, m2i, m3i, m4i = m1, m2, m3, m4
             idleCount = 0
@@ -43,6 +48,7 @@ try:
 except KeyboardInterrupt:
     PWM.setMotorModel(0, 0, 0, 0)
     cv.destroy()
+    led.colorWipe(led.strip, Color(0,0,0),10)
 
 
     
