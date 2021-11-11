@@ -1,12 +1,15 @@
 from BaseLibrary.Code.Server.Motor import*
 from cv.faceDetect import Vision
+from BaseLibrary.Code.Server.servo import Servo
 import time
 
 cv = Vision()
 PWM = Motor()
-
+servo = Servo()
 
 try:
+    servo.setServoPwm('0', 90)
+    servo.setServoPwm('1', 110)
     # Main robot loop goes here
     while True:
         (x, y, w, h) = cv.get_bounding_box()
@@ -37,6 +40,8 @@ try:
 except KeyboardInterrupt:
     PWM.setMotorModel(0, 0, 0, 0)
     cv.destroy()
+    servo.setServoPwm('0',90)
+    servo.setServoPwm('1',90)
 
 
     
