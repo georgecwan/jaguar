@@ -5,12 +5,12 @@ PWM = Motor()
 
 
 try:
-    PWM.setMotorModel(1000, 1000, 1000, 1000)
+    PWM.setMotorModel(1000, 1000, 1000, 1000)  # Forward
     print("The car is going forwards")
     a = input()
     PWM.setMotorModel(0, 0, 0, 0)
     b = input()
-    PWM.setMotorModel(-1000, -1000, -1000, -1000)
+    PWM.setMotorModel(-1000, -1000, -1000, -1000)  # Back
     print("The car is going backwards")
     c = input()
     PWM.setMotorModel(0, 0, 0, 0)
