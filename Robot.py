@@ -15,7 +15,7 @@ try:
         # print(f"{x}, {y}, {w}, {h}")
         relativeX = cv.get_x_center() - x - w / 2
         m1 = m2 = m3 = m4 = 0
-        if w != 0 and abs(relativeX) >= 100:
+        if w != 0 and abs(relativeX) >= 75:
             if relativeX < 0:
                 print("Turning right")
                 m1, m2, m3, m4 = m1 + 500, m2 + 500, m3 - 500, m4 - 500
@@ -23,14 +23,14 @@ try:
                 print("Turning left")
                 m1, m2, m3, m4 = m1 - 500, m2 - 500, m3 + 500, m4 + 500
 
-        if w > 120 and h > 120:
+        if w > 100 and h > 100:
             # Too close
             print("Going backwards")
-            m1, m2, m3, m4 = m1 - 1000, m2 - 1000, m3 - 1000, m4 - 1000
-        elif 0 < w < 80 and 0 < h < 80:
+            m1, m2, m3, m4 = m1 - 800, m2 - 800, m3 - 800, m4 - 800
+        elif 0 < w < 60 and 0 < h < 60:
             # Too far
             print("Going forwards")
-            m1, m2, m3, m4 = m1 + 1000, m2 + 1000, m3 + 1000, m4 + 1000
+            m1, m2, m3, m4 = m1 + 800, m2 + 800, m3 + 800, m4 + 800
         if m1 == m2 == m3 == m4 == 0 and idleCount < 5:
             print("No movement")
             idleCount += 1
