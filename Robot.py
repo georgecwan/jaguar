@@ -1,6 +1,7 @@
 from BaseLibrary.Code.Server.Motor import Motor
 from BaseLibrary.Code.Server.Led import Led
 from cv.faceDetect import Vision
+from rpi_ws281x import *
 import time
 
 cv = Vision()
