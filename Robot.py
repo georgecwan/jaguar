@@ -24,10 +24,10 @@ try:
         if w != 0 and abs(relativeX) >= 20:
             if relativeX < 0:
                 print("Turning right")
-                m1t, m2t, m3t, m4t = 600, 600, 0, 0
+                m1t, m2t, m3t, m4t = 700, 700, 0, 0
             elif relativeX > 0:
                 print("Turning left")
-                m1t, m2t, m3t, m4t = 0, 0, 600, 600
+                m1t, m2t, m3t, m4t = 0, 0, 700, 700
         else:
             print("No turning")
             m1t = m2t = m3t = m4t = 0
@@ -37,7 +37,7 @@ try:
             print("Going backwards")
             m1i, m2i, m3i, m4i = -600, -600, -600, -600
             idleCount = 0
-        elif 0 < w < 80 and 0 < h < 80:
+        elif 0 < w < 60 and 0 < h < 60:
             # Too far
             print("Going forwards")
             m1i, m2i, m3i, m4i = 600, 600, 600, 600
