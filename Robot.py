@@ -21,10 +21,10 @@ try:
         if w != 0 and abs(relativeX) >= 75:
             if relativeX < 0:
                 print("Turning right")
-                m1t, m2t, m3t, m4t = 600, 600, -600, -600
+                m1t, m2t, m3t, m4t = 500, 500, -500, -500
             elif relativeX > 0:
                 print("Turning left")
-                m1t, m2t, m3t, m4t = -600, -600, 600, 600
+                m1t, m2t, m3t, m4t = -500, -500, 500, 500
 
         if w > 100 and h > 100:
             # Too close
@@ -38,10 +38,10 @@ try:
             m1i, m2i, m3i, m4i = 800, 800, 800, 800
             led.colorWipe(led.strip, Color(0, 255, 0))
             idleCount = 0
-        elif idleCount < 2:
-            print("Idling")
-            idleCount += 1
-            led.colorWipe(led.strip, Color(255, 255, 255))
+        # elif idleCount < 2:
+        #     print("Idling")
+        #     idleCount += 1
+        #     led.colorWipe(led.strip, Color(255, 255, 255))
         else:
             print("No f/b movement")
             m1i, m2i, m3i, m4i = 0, 0, 0, 0
