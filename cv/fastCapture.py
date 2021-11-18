@@ -73,7 +73,7 @@ elapsed_seconds = end_time - start_time
 print("Done! Result: " + str(N_frames / elapsed_seconds) + " fps")
 
 print("Writing frames to disk...")
-out = cv2.VideoWriter("slow_motion.avi", cv2.cv.CV_FOURCC(*"MJPG"), 30, (w, h))
+out = cv2.VideoWriter("slow_motion.avi", cv2.VideoWriter.VideoWriter_fourcc("M", "P", "E", "G"), 30, (w, h))
 for n in range(N_frames):
     # cv2.imwrite("frame"+str(n)+".png", frames[n]) # save frame as a PNG image
     frame_rgb = cv2.cvtColor(frames[n], cv2.COLOR_GRAY2RGB)  # video codec requires RGB image
