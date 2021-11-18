@@ -74,6 +74,7 @@ if __name__ == '__main__':
             R = ultrasonicR.get_distance()
             M = ultrasonicM.get_distance()
             ultrasonicM.run_motor(L, M, R)
+            time.sleep(0.3)
 
     # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
     except KeyboardInterrupt:
