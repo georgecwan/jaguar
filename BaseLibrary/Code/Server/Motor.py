@@ -82,9 +82,9 @@ def loop():
     time.sleep(3)
     PWM.setMotorModel(-2000,-2000,-2000,-2000)   #Back
     time.sleep(3)
-    PWM.setMotorModel(-500,-500,500,500)       #Left 
+    PWM.setMotorModel(-500,-500,500,500)         #Left
     time.sleep(3)
-    PWM.setMotorModel(500,500,-500,-500)       #Right    
+    PWM.setMotorModel(500,500,-500,-500)         #Right
     time.sleep(3)
     PWM.setMotorModel(0,0,0,0)                   #Stop
     
