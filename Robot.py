@@ -18,15 +18,15 @@ try:
     while True:
         (x, y, w, h) = cv.get_bounding_box()
         # print(f"{x}, {y}, {w}, {h}")
-        relativeX = 270 - x - w / 2
+        relativeX = cv.get_x_center() - x - w / 2
         if (x, y, w, h) == (0, 0, 0, 0):
             print("No face detected")
 
-        if w != 0 and abs(relativeX) >= 15:
-            if relativeX < -50:
+        if w != 0 and abs(relativeX) >= 20:
+            if relativeX < -70:
                 print("Turning right")
                 m1t, m2t, m3t, m4t = 1000, 1000, 0, 0
-            elif relativeX > 50:
+            elif relativeX > 70:
                 print("Turning left")
                 m1t, m2t, m3t, m4t = 0, 0, 1000, 1000
             elif relativeX < 0:
@@ -39,12 +39,12 @@ try:
             print("No turning")
             m1t = m2t = m3t = m4t = 0
 
-        if w > 75 and h > 75:
+        if w > 100 and h > 100:
             # Too close
             print("Going backwards")
             m1i, m2i, m3i, m4i = -600, -600, -600, -600
             idleCount = 0
-        elif 0 < w < 55 and 0 < h < 55:
+        elif 0 < w < 80 and 0 < h < 80:
             # Too far
             print("Going forwards")
             m1i, m2i, m3i, m4i = 600, 600, 600, 600
