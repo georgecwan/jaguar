@@ -17,15 +17,15 @@ try:
     while True:
         (x, y, w, h) = cv.get_bounding_box()
         # print(f"{x}, {y}, {w}, {h}")
-        relativeX = cv.get_x_center() - x - w / 2
+        relativeX = 160 - x - w / 2
         if (x, y, w, h) == (0, 0, 0, 0):
             print("No face detected")
 
-        if w != 0 and abs(relativeX) >= 20:
-            if relativeX < -100:
+        if w != 0 and abs(relativeX) >= 10:
+            if relativeX < -50:
                 print("Turning right")
                 m1t, m2t, m3t, m4t = 1000, 1000, 0, 0
-            elif relativeX > 100:
+            elif relativeX > 50:
                 print("Turning left")
                 m1t, m2t, m3t, m4t = 0, 0, 1000, 1000
             elif relativeX < 0:
@@ -38,12 +38,12 @@ try:
             print("No turning")
             m1t = m2t = m3t = m4t = 0
 
-        if w > 100 and h > 100:
+        if w > 50 and h > 50:
             # Too close
             print("Going backwards")
             m1i, m2i, m3i, m4i = -600, -600, -600, -600
             idleCount = 0
-        elif 0 < w < 60 and 0 < h < 60:
+        elif 0 < w < 40 and 0 < h < 40:
             # Too far
             print("Going forwards")
             m1i, m2i, m3i, m4i = 600, 600, 600, 600
@@ -60,8 +60,8 @@ try:
 except KeyboardInterrupt:
     PWM.setMotorModel(0, 0, 0, 0)
     cv.destroy()
-    servo.setServoPwm('0',90)
-    servo.setServoPwm('1',90)
+    servo.setServoPwm('0', 90)
+    servo.setServoPwm('1', 90)
 
 
     
