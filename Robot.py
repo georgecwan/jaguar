@@ -17,7 +17,6 @@ try:
     # Main robot loop goes here
     while True:
         (x, y, w, h) = cv.get_bounding_box()
-        # print(f"{x}, {y}, {w}, {h}")
         relativeX = cv.get_x_center() - x - w / 2
         if (x, y, w, h) == (0, 0, 0, 0):
             print("No face detected")
