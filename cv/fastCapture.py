@@ -44,7 +44,7 @@ start_time = time.time()
 while True:
     cameraProcess.stdout.flush()  # discard any frames that we were not able to process in time
     # Parse the raw stream into a numpy array
-    frame = np.fromfile(cameraProcess.stdout, count=bytesPerFrame, dtype=np.uint8)
+    frame = np.frombuffer(cameraProcess.stdout.read(bytesPerFrame), dtype=np.uint8)
     if frame.size != bytesPerFrame:
         print("Error: Camera stream closed unexpectedly")
         break
