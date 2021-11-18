@@ -13,7 +13,7 @@ class Vision:
     def get_bounding_box(self):
         ret, img = self.cap.read()
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        gray = imutils.resize(gray, width=360)
+        gray = imutils.resize(gray, width=540)
         faces = self.faceCascade.detectMultiScale(
             gray,
             scaleFactor=1.2,
@@ -48,8 +48,8 @@ if __name__ == "__main__":
         ret, img = cap.read()
         # img = cv2.flip(img, -1)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        gray = imutils.resize(gray, width=360)
-        img = imutils.resize(img, width=360)
+        gray = imutils.resize(gray, width=540)
+        img = imutils.resize(img, width=540)
 
         faces = faceCascade.detectMultiScale(
             gray,
