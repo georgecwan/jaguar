@@ -48,9 +48,9 @@ if __name__ == "__main__":
         ret, img = cap.read()
         # img = cv2.flip(img, -1)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        gray = imutils.resize(gray, width=320)
+        gray = imutils.resize(gray, width=360)
         img = imutils.resize(img, width=360)
-        
+
         faces = faceCascade.detectMultiScale(
             gray,
             scaleFactor=1.2,
