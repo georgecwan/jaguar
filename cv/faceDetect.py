@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import imutils
 
 class Vision:
     def __init__(self):
@@ -12,6 +13,7 @@ class Vision:
     def get_bounding_box(self):
         ret, img = self.cap.read()
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        gray = imutils.resize(gray, width=360)
         faces = self.faceCascade.detectMultiScale(
             gray,
             scaleFactor=1.2,
@@ -46,6 +48,9 @@ if __name__ == "__main__":
         ret, img = cap.read()
         # img = cv2.flip(img, -1)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        gray = imutils.resize(gray, width=360)
+        img = imutils.resize(img, width=360)
+
         faces = faceCascade.detectMultiScale(
             gray,
             scaleFactor=1.2,
@@ -62,7 +67,7 @@ if __name__ == "__main__":
                 max_area = w * h
                 (mx, my, mw, mh) = (x, y, w, h)
         # print(mx, my, mw, mh)
-        print(cap.get(cv2.CAP_PROP_FRAME_WIDTH)/2 - mx - mw / 2)
+        print(160 - mx - mw / 2)
         cv2.imshow('Detect Face', img)
         k = cv2.waitKey(30) & 0xff
 

@@ -1,5 +1,5 @@
 import time
-from PCA9685 import PCA9685
+from BaseLibrary.Code.Server.PCA9685 import PCA9685
 class Servo:
     def __init__(self):
         self.PwmServo = PCA9685(0x40, debug=True)
