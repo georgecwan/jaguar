@@ -23,6 +23,16 @@ try:
             PWM.setMotorModel(600, 600, 1600, 1600)  # more left
         elif a == 'l':
             PWM.setMotorModel(2000, 2000, 600, 600)  # more right
+        elif a == 'z':
+            PWM.setMotorModel(2000, 2000, -2500, -1500)
+            time.sleep(0.1)
+            PWM.setMotorModel(1450, 1450, 1450, 1450)
+            time.sleep(0.3)
+            PWM.setMotorModel(-1900, -1500, 2000, 2000)
+            time.sleep(0.1)
+            PWM.setMotorModel(1450, 1450, 1450, 1450)
+            time.sleep(0.3)
+            PWM.setMotorModel(2000, 2000, -2500, -1500)
         else:
             PWM.setMotorModel(0, 0, 0, 0)
 
