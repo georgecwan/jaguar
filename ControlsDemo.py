@@ -18,11 +18,11 @@ try:
         elif a == 'q':
             PWM.setMotorModel(600, 600, 1300, 1300)  # slight left
         elif a == 'e':
-            PWM.setMotorModel(1700, 1700, 600, 600)  # slight right
+            PWM.setMotorModel(1510, 1510, 600, 600)  # slight right
         elif a == 'j':
             PWM.setMotorModel(600, 600, 1600, 1600)  # more left
         elif a == 'l':
-            PWM.setMotorModel(2200, 2200, 600, 600)  # more right
+            PWM.setMotorModel(2000, 2000, 600, 600)  # more right
         else:
             PWM.setMotorModel(0, 0, 0, 0)
 
