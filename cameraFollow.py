@@ -19,8 +19,8 @@ try:
         if w != 0 and h != 0:
             relativeX = cv.get_x_center() - x - w / 2  # Left (+), Right (-)
             relativeY = cv.get_y_center() - y - h / 2  # Up (+), Down (-)
-            h_angle -= cv.get_horizontal_angle(relativeX)
-            v_angle += cv.get_vertical_angle(relativeY)
+            h_angle -= cv.get_horizontal_angle(relativeX)/3
+            v_angle += cv.get_vertical_angle(relativeY)/3
         else:
             if h_angle != 90:
                 h_angle += 1 if h_angle < 90 else -1
