@@ -62,17 +62,17 @@ try:
 
         # Motor code
         if w != 0 and h != 0 and abs(absoluteX - 90) > 0:
-            if absoluteX > 135:
-                print("Turning right")
+            if absoluteX > 100:
+                print("Turning vright")
                 m1t, m2t, m3t, m4t = 1400, 1400, 0, 0
-            elif absoluteX < 45:
-                print("Turning left")
+            elif absoluteX < 80:
+                print("Turning vleft")
                 m1t, m2t, m3t, m4t = 0, 0, 1000, 1000
             elif absoluteX > 90:
-                print("Turning right")
+                print("Turning sright")
                 m1t, m2t, m3t, m4t = 910, 910, 0, 0
             elif absoluteX < 90:
-                print("Turning left")
+                print("Turning sleft")
                 m1t, m2t, m3t, m4t = 0, 0, 700, 700
         else:
             print("No turning")
