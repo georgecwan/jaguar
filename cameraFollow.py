@@ -35,6 +35,7 @@ try:
             v_angle += cv.get_vertical_angle(relativeY) / 2.5
             delay += 1
             relativeX = temp - cv.get_horizontal_angle(relativeX)
+            print(relativeX)
         elif w != 0 and h != 0:
             delay = 0
         elif delay > 10:
@@ -77,19 +78,19 @@ try:
 
         if w > 100 and h > 100 or v_angle > 135:
             # Too close
-            print("Going backwards")
+            # print("Going backwards")
             m1i, m2i, m3i, m4i = -600, -600, -600, -600
             idleCount = 0
         elif 0 < w < 80 and 0 < h < 80:
             # Too far
-            print("Going forwards")
+            # print("Going forwards")
             m1i, m2i, m3i, m4i = 600, 600, 600, 600
             idleCount = 0
         elif idleCount < 2:
-            print("Idling")
+            # print("Idling")
             idleCount += 1
         else:
-            print("No f/b movement")
+            # print("No f/b movement")
             m1i, m2i, m3i, m4i = 0, 0, 0, 0
         PWM.setMotorModel(m1t + m1i, m2t + m2i, m3t + m3i, m4t + m4i)
 
