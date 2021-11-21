@@ -29,7 +29,7 @@ try:
             PWM.setMotorModel(1450, 1450, 1450, 1450)
             time.sleep(1)
             PWM.setMotorModel(-1900, -1500, 2000, 2000)
-            time.sleep(0.25)
+            time.sleep(0.5)
             PWM.setMotorModel(1450, 1450, 1450, 1450)
             time.sleep(1)
             PWM.setMotorModel(2000, 2000, -2500, -1500)
