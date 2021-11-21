@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import cv2
 import imutils
@@ -10,10 +11,12 @@ class Vision:
     def get_x_center(self):
         return self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)/2
 
+    def get_y_center(self):
+        return self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)/2
+
     def get_bounding_box(self):
         ret, img = self.cap.read()
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        # gray = imutils.resize(gray, width=540)
         faces = self.faceCascade.detectMultiScale(
             gray,
             scaleFactor=1.2,
@@ -33,6 +36,18 @@ class Vision:
         # cv2.waitKey(30)
         return mx, my, mw, mh
 
+    def get_horizontal_angle(self, relativeX):
+        # Viewing angle: 54º x 41º
+        hFOV = math.radians(54)
+        focal = (self.cap.get(cv2.CAP_PROP_FRAME_WIDTH) / 2) / math.tan(hFOV / 2)
+        return math.atan(relativeX / focal)
+
+    def get_vertical_angle(self, relativeY):
+        # Viewing angle: 54º x 41º
+        vFOV = math.radians(41)
+        focal = (self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT) / 2) / math.tan(vFOV / 2)
+        return math.atan(relativeY / focal)
+
     def destroy(self):
         self.cap.release()
         cv2.destroyAllWindows()
@@ -41,7 +56,8 @@ class Vision:
 if __name__ == "__main__":
     faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     cap = cv2.VideoCapture(0)
-    print(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+
+    # print(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     # cap.set(3, 640) # set Width
     # cap.set(4, 480) # set Height
     while True:
@@ -67,7 +83,7 @@ if __name__ == "__main__":
                 max_area = w * h
                 (mx, my, mw, mh) = (x, y, w, h)
         # print(mx, my, mw, mh)
-        print(160 - mx - mw / 2)
+        # print(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)/2 - my - my / 2)
         cv2.imshow('Detect Face', img)
         k = cv2.waitKey(30) & 0xff
 
