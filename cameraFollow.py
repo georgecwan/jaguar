@@ -58,7 +58,7 @@ try:
         servo.setServoPwm('1', v_angle)
 
         # Motor code
-        if w != 0 and abs(relativeX) >= 20:
+        if w != 0 and abs(relativeX-90) >= 10:
             if relativeX < -45:
                 print("Turning right")
                 m1t, m2t, m3t, m4t = 1400, 1400, 0, 0
