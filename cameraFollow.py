@@ -19,13 +19,13 @@ try:
         if w != 0 and h != 0:
             relativeX = cv.get_x_center() - x - w / 2  # Left (+), Right (-)
             relativeY = cv.get_y_center() - y - h / 2  # Up (+), Down (-)
-            h_angle += cv.get_horizontal_angle(relativeX)
+            h_angle -= cv.get_horizontal_angle(relativeX)
             v_angle += cv.get_vertical_angle(relativeY)
         else:
             if h_angle != 90:
-                h_angle += 0.5 if h_angle < 90 else -0.5
+                h_angle += 1 if h_angle < 90 else -1
             if v_angle != 120:
-                v_angle += 0.5 if v_angle < 120 else -0.5
+                v_angle += 1 if v_angle < 120 else -1
         if h_angle < 20:
             h_angle = 20
         elif h_angle > 160:
