@@ -40,13 +40,13 @@ class Vision:
         # Viewing angle: 54º x 41º
         hFOV = math.radians(54)
         focal = (self.cap.get(cv2.CAP_PROP_FRAME_WIDTH) / 2) / math.tan(hFOV / 2)
-        return math.atan(relativeX / focal)
+        return math.degrees(math.atan(relativeX / focal))
 
     def get_vertical_angle(self, relativeY):
         # Viewing angle: 54º x 41º
         vFOV = math.radians(41)
         focal = (self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT) / 2) / math.tan(vFOV / 2)
-        return math.atan(relativeY / focal)
+        return math.degrees(math.atan(relativeY / focal))
 
     def destroy(self):
         self.cap.release()
