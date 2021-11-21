@@ -12,7 +12,7 @@ try:
         elif a == 'a':
             PWM.setMotorModel(-1900, -1500, 2000, 2000)
         elif a == 's':
-            PWM.setMotorModel(-1000, -1000, -1000, -1000)
+            PWM.setMotorModel(-1450, -1450, -1450, -1450)
         elif a == 'd':
             PWM.setMotorModel(2000, 2000, -2500, -1500)
         elif a == 'q':
