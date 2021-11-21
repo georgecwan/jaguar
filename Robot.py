@@ -24,13 +24,13 @@ try:
         if w != 0 and abs(relativeX) >= 20:
             if relativeX < -70:
                 print("Turning right")
-                m1t, m2t, m3t, m4t = 1000, 1000, 0, 0
+                m1t, m2t, m3t, m4t = 1400, 1400, 0, 0
             elif relativeX > 70:
                 print("Turning left")
                 m1t, m2t, m3t, m4t = 0, 0, 1000, 1000
             elif relativeX < 0:
                 print("Turning right")
-                m1t, m2t, m3t, m4t = 700, 700, 0, 0
+                m1t, m2t, m3t, m4t = 910, 910, 0, 0
             elif relativeX > 0:
                 print("Turning left")
                 m1t, m2t, m3t, m4t = 0, 0, 700, 700
