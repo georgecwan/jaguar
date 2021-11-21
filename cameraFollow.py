@@ -17,19 +17,22 @@ try:
     # Main camera adjustment loop
     while True:
         (x, y, w, h) = cv.get_bounding_box()
-        if w != 0 and h != 0 and delay < 1:
+        if w != 0 and h != 0 and delay == 0:
             relativeX = cv.get_x_center() - x - w / 2  # Left (+), Right (-)
             relativeY = cv.get_y_center() - y - h / 2  # Up (+), Down (-)
-            h_angle -= cv.get_horizontal_angle(relativeX) / 4
-            v_angle += cv.get_vertical_angle(relativeY) / 4
+            h_angle -= cv.get_horizontal_angle(relativeX) / 3
+            v_angle += cv.get_vertical_angle(relativeY) / 3
             delay += 1
-        elif delay < 1:
+        elif w != 0 and h != 0:
+            delay = 0
+        elif delay > 5:
             if h_angle != 90:
                 h_angle += 1 if h_angle < 90 else -1
             if v_angle != 120:
                 v_angle += 1 if v_angle < 120 else -1
         else:
-            delay = 0
+            delay += 1
+
         if h_angle < 20:
             h_angle = 20
         elif h_angle > 160:
