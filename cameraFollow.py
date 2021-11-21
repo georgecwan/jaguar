@@ -75,7 +75,7 @@ try:
             print("No turning")
             m1t = m2t = m3t = m4t = 0
 
-        if w > 100 and h > 100 or v_angle > 45:
+        if w > 100 and h > 100 or v_angle > 135:
             # Too close
             print("Going backwards")
             m1i, m2i, m3i, m4i = -600, -600, -600, -600
