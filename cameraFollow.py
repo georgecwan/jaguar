@@ -59,7 +59,7 @@ try:
         servo.setServoPwm('1', v_angle)
 
         # Motor code
-        if w != 0 and abs(relativeX-90) >= 10:
+        if w != 0 and abs(relativeX - 90) >= 10:
             if relativeX > 135:
                 print("Turning right")
                 m1t, m2t, m3t, m4t = 1400, 1400, 0, 0
@@ -76,7 +76,7 @@ try:
             print("No turning")
             m1t = m2t = m3t = m4t = 0
 
-        if w > 100 and h > 100 or v_angle > 135:
+        if w > 100 and h > 100 or v_angle == 155:
             # Too close
             # print("Going backwards")
             m1i, m2i, m3i, m4i = -600, -600, -600, -600
