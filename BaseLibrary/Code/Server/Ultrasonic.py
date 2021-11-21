@@ -40,11 +40,27 @@ class Ultrasonic:
 def run_motor(PWM, L, M, R):
     if (L < 30 and M < 30 and R < 30) or M < 30:
         PWM.setMotorModel(-1450, -1450, -1450, -1450)
-        time.sleep(0.1)
-        if L < R:
-            PWM.setMotorModel(1450, 1450, -1450, -1450)
-        else:
-            PWM.setMotorModel(-1450, -1450, 1450, 1450)
+        time.sleep(0.3)
+        if L < R: # turn right first
+            PWM.setMotorModel(2000, 2000, -2500, -1500)
+            time.sleep(0.1)
+            PWM.setMotorModel(1450, 1450, 1450, 1450)
+            time.sleep(0.3)
+            PWM.setMotorModel(-1900, -1500, 2000, 2000)
+            time.sleep(0.1)
+            PWM.setMotorModel(1450, 1450, 1450, 1450)
+            time.sleep(0.3)
+            PWM.setMotorModel(2000, 2000, -2500, -1500)
+        else: # turn left first
+            PWM.setMotorModel(-1900, -1500, 2000, 2000)
+            time.sleep(0.1)
+            PWM.setMotorModel(1450, 1450, 1450, 1450)
+            time.sleep(0.3)
+            PWM.setMotorModel(2000, 2000, -2500, -1500)
+            time.sleep(0.1)
+            PWM.setMotorModel(1450, 1450, 1450, 1450)
+            time.sleep(0.3)
+            PWM.setMotorModel(-1900, -1500, 2000, 2000)
     elif L < 30 and M < 30:
         PWM.setMotorModel(1500, 1500, -1500, -1500)
     elif R < 30 and M < 30:
