@@ -23,9 +23,9 @@ try:
             v_angle += cv.get_vertical_angle(relativeY)
         else:
             if h_angle != 90:
-                h_angle += 1 if h_angle < 90 else -1
+                h_angle += 0.5 if h_angle < 90 else -0.5
             if v_angle != 120:
-                v_angle += 1 if v_angle < 120 else -1
+                v_angle += 0.5 if v_angle < 120 else -0.5
         if h_angle < 20:
             h_angle = 20
         elif h_angle > 160:
@@ -35,8 +35,8 @@ try:
         elif v_angle > 150:
             v_angle = 150
 
-        # servo.setServoPwm('0', h_angle)
-        # servo.setServoPwm('1', v_angle)
+        servo.setServoPwm('0', h_angle)
+        servo.setServoPwm('1', v_angle)
         print(f"{h_angle}, {v_angle}")
 
 
