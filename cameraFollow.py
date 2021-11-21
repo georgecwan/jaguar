@@ -60,16 +60,16 @@ try:
 
         # Motor code
         if w != 0 and abs(relativeX-90) >= 10:
-            if relativeX < -45:
+            if relativeX > 135:
                 print("Turning right")
                 m1t, m2t, m3t, m4t = 1400, 1400, 0, 0
-            elif relativeX > 135:
+            elif relativeX < 45:
                 print("Turning left")
                 m1t, m2t, m3t, m4t = 0, 0, 1000, 1000
-            elif relativeX < 90:
+            elif relativeX > 90:
                 print("Turning right")
                 m1t, m2t, m3t, m4t = 910, 910, 0, 0
-            elif relativeX > 90:
+            elif relativeX < 90:
                 print("Turning left")
                 m1t, m2t, m3t, m4t = 0, 0, 700, 700
         else:
