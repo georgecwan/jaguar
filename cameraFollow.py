@@ -23,11 +23,13 @@ try:
             h_angle -= cv.get_horizontal_angle(relativeX) / 4
             v_angle += cv.get_vertical_angle(relativeY) / 4
             delay += 1
-        elif delay < 2:
+        elif delay < 1:
             if h_angle != 90:
                 h_angle += 1 if h_angle < 90 else -1
             if v_angle != 120:
                 v_angle += 1 if v_angle < 120 else -1
+        else:
+            delay = 0
         if h_angle < 20:
             h_angle = 20
         elif h_angle > 160:
