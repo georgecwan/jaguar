@@ -15,7 +15,7 @@ try:
     v_angle = 120
     servo.setServoPwm('0', h_angle)  # Horizontal, 0 is left, 180 is right
     servo.setServoPwm('1', v_angle)  # Vertical, 0 is down, 180 is up
-    absoluteX = 0
+    absoluteX = 90
     idleCount = 0
     m1i = m2i = m3i = m4i = 0  # Forward/backwards values
     m1t = m2t = m3t = m4t = 0  # Turning Values
@@ -26,7 +26,7 @@ try:
         if (x, y, w, h) == (0, 0, 0, 0):
             relativeX = 0
             relativeY = 0
-            absoluteX = 0
+            absoluteX = 90
             print("No face detected")
         else:
             relativeX = cv.get_x_center() - x - w / 2  # Left (+), Right (-)
