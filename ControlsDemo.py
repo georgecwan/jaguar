@@ -25,15 +25,15 @@ try:
             PWM.setMotorModel(2000, 2000, 600, 600)  # more right
         elif a == 'z':
             PWM.setMotorModel(2000, 2000, -2500, -1500)
-            time.sleep(1)
+            time.sleep(0.5)
             PWM.setMotorModel(1450, 1450, 1450, 1450)
-            time.sleep(0.4)
+            time.sleep(1)
             PWM.setMotorModel(-1900, -1500, 2000, 2000)
-            time.sleep(1)
+            time.sleep(0.5)
             PWM.setMotorModel(1450, 1450, 1450, 1450)
-            time.sleep(0.4)
-            PWM.setMotorModel(2000, 2000, -2500, -1500)
             time.sleep(1)
+            PWM.setMotorModel(2000, 2000, -2500, -1500)
+            time.sleep(0.5)
             PWM.setMotorModel(0, 0, 0, 0)
 
         else:
