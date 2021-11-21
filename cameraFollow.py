@@ -15,6 +15,7 @@ try:
     v_angle = 120
     servo.setServoPwm('0', h_angle)  # Horizontal, 0 is left, 180 is right
     servo.setServoPwm('1', v_angle)  # Vertical, 0 is down, 180 is up
+    absoluteX = 0
     idleCount = 0
     m1i = m2i = m3i = m4i = 0  # Forward/backwards values
     m1t = m2t = m3t = m4t = 0  # Turning Values
@@ -25,6 +26,7 @@ try:
         if (x, y, w, h) == (0, 0, 0, 0):
             relativeX = 0
             relativeY = 0
+            absoluteX = 0
             print("No face detected")
         else:
             relativeX = cv.get_x_center() - x - w / 2  # Left (+), Right (-)
@@ -34,8 +36,8 @@ try:
             h_angle -= cv.get_horizontal_angle(relativeX) / 2.5
             v_angle += cv.get_vertical_angle(relativeY) / 2.5
             delay += 1
-            relativeX = temp - cv.get_horizontal_angle(relativeX)
-            print(relativeX)
+            absoluteX = temp - cv.get_horizontal_angle(relativeX)
+            print(absoluteX)
         elif w != 0 and h != 0:
             delay = 0
         elif delay > 10:
@@ -59,24 +61,24 @@ try:
         servo.setServoPwm('1', v_angle)
 
         # Motor code
-        if w != 0 and abs(relativeX - 90) >= 10:
-            if relativeX > 135:
+        if w != 0 and h != 0 and abs(absoluteX - 90) > 0:
+            if absoluteX > 135:
                 print("Turning right")
                 m1t, m2t, m3t, m4t = 1400, 1400, 0, 0
-            elif relativeX < 45:
+            elif absoluteX < 45:
                 print("Turning left")
                 m1t, m2t, m3t, m4t = 0, 0, 1000, 1000
-            elif relativeX > 90:
+            elif absoluteX > 90:
                 print("Turning right")
                 m1t, m2t, m3t, m4t = 910, 910, 0, 0
-            elif relativeX < 90:
+            elif absoluteX < 90:
                 print("Turning left")
                 m1t, m2t, m3t, m4t = 0, 0, 700, 700
         else:
             print("No turning")
             m1t = m2t = m3t = m4t = 0
 
-        if w > 100 and h > 100 or v_angle == 155:
+        if (w > 100 and h > 100) or v_angle > 155:
             # Too close
             # print("Going backwards")
             m1i, m2i, m3i, m4i = -600, -600, -600, -600
