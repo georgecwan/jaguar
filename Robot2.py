@@ -103,10 +103,10 @@ try:
                 print("Turning sleft")
                 m1t, m2t, m3t, m4t = 0, 0, 700, 700
         elif m1i == m2i == m3i == m4i == 0:
-            if absoluteX > 90:
+            if absoluteX > 80:
                 print("Turning right in place")
                 m1t, m2t, m3t, m4t = 2000, 2000, -2500, -1500
-            elif absoluteX < 90:
+            elif absoluteX < 100:
                 print("Turning left in place")
                 m1t, m2t, m3t, m4t = -1900, -1500, 2000, 2000
         else:
