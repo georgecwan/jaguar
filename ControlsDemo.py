@@ -25,9 +25,9 @@ try:
             PWM.setMotorModel(2000, 2000, 600, 600)  # more right
 
         elif a == '1':
-            PWM.setMotorModel(2900, 2900, 500, 500)  # extremely right
+            PWM.setMotorModel(2500, 2500, 400, 400)  # extremely right
         elif a == '2':
-            PWM.setMotorModel(500, 500, 2800, 2800)  # extremely right
+            PWM.setMotorModel(400, 400, 2400, 2400)  # extremely right
 
         elif a == 'z':
             PWM.setMotorModel(2000, 2000, -2500, -1500)
