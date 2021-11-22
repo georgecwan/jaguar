@@ -8,6 +8,11 @@ import time
 cv = Vision()
 PWM = Motor()
 servo = Servo()
+motorValues = (
+    ((), (), (), (660, 660, 600, 600), (), (), ()),  # 0 = Forward
+    ((), (), (), (0, 0, 0, 0), (), (), ()),  # 1 = Stationary
+    ((), (), (), (-660, -660, -600, -600), (), (), ())  # 2 = Backward
+)  # 0 = eleft, 1 = vleft, 2 = sleft, 3 = straight, 4 = sright, 5 = vright, 6 = eright
 
 try:
     delay = 0
@@ -41,7 +46,7 @@ try:
             absoluteX = temp - cv.get_horizontal_angle(relativeX)
         elif w != 0 and h != 0:
             delay = 0
-        elif delay > 10:
+        elif delay > 5:
             if h_angle != 90:
                 if h_angle >= 135:
                     idleTurn = -5
@@ -66,7 +71,7 @@ try:
         servo.setServoPwm('1', v_angle)
 
         # Motor code
-        if (w > 80 and h > 80) or v_angle > 155:
+        if (w > 90 and h > 90) or v_angle > 155:
             # Too close
             print("Going backwards")
             m1i, m2i, m3i, m4i = -600, -600, -600, -600
