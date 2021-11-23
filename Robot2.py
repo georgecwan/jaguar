@@ -9,10 +9,10 @@ cv = Vision()
 PWM = Motor()
 servo = Servo()
 motorValues = (
-    ((), (), (), (660, 660, 600, 600), (), (), ()),  # 0 = Forward
-    ((), (), (), (0, 0, 0, 0), (), (), ()),  # 1 = Stationary
-    ((), (), (), (-660, -660, -600, -600), (), (), ())  # 2 = Backward
-)  # 0 = eleft, 1 = vleft, 2 = sleft, 3 = straight, 4 = sright, 5 = vright, 6 = eright
+    ((550, 550, 2800, 2800), (600, 600, 1600, 1600), (600, 600, 1300, 1300), (660, 660, 600, 600), (1510, 1510, 600, 600), (2000, 2000, 600, 600), (2800, 2800, 550, 550)),  # 0 = Forward
+    ((-1900, -1500, 2000, 2000), (-1900, -1500, 2000, 2000), (-1900, -1500, 2000, 2000), (0, 0, 0, 0), (2000, 2000, -2500, -1500), (2000, 2000, -2500, -1500), (2000, 2000, -2500, -1500)),  # 1 = Stationary
+    ((-2800, -2800, -550, -550), (-2000, -2000, -600, -600), (-1510, -1510, -600, -600), (-660, -660, -600, -600), (-600, -600, -1300, -1300), (-600, -600, -1600, -1600), (-550, -550, -2800, -2800))  # 2 = Backward (Directions are mirrored)
+)  # 0 = extreme left, 1 = very left, 2 = slight left, 3 = straight, 4 = slight right, 5 = very right, 6 = extreme right
 
 try:
     delay = 0
@@ -23,8 +23,8 @@ try:
     absoluteX = 90
     idleCount = 0
     idleTurn = 5
-    m1i = m2i = m3i = m4i = 0  # Forward/backwards values
-    m1t = m2t = m3t = m4t = 0  # Turning Values
+    dz = 0  # Forward/backwards values
+    dx = 0  # Turning Values
 
     # Main robot loop goes here
     while True:
@@ -74,51 +74,45 @@ try:
         if (w > 90 and h > 90) or v_angle > 155:
             # Too close
             print("Going backwards")
-            m1i, m2i, m3i, m4i = -600, -600, -600, -600
+            dz = 2
             idleCount = 0
         elif 0 < w < 70 and 0 < h < 70:
             # Too far
             print("Going forwards")
-            m1i, m2i, m3i, m4i = 600, 600, 600, 600
+            dz = 0
             idleCount = 0
         elif idleCount < 2:
             print("Idling")
             idleCount += 1
         else:
             print("No f/b movement")
-            m1i, m2i, m3i, m4i = 0, 0, 0, 0
+            dz = 1
 
-        if w != 0 and h != 0 and abs(absoluteX - 90) > 0 and not (m1i == m2i == m3i == m4i == 0):
+        if w != 0 and h != 0 and abs(absoluteX - 90) > 0:
             if absoluteX > 110:
                 print("Turning eright")
-                m1t, m2t, m3t, m4t = 1650, 1650, 0, 0
+                dx = 6
             elif absoluteX < 70:
                 print("Turning eleft")
-                m1t, m2t, m3t, m4t = 0, 0, 1200, 1200
+                dx = 0
             elif absoluteX > 100:
                 print("Turning vright")
-                m1t, m2t, m3t, m4t = 1400, 1400, 0, 0
+                dx = 5
             elif absoluteX < 80:
                 print("Turning vleft")
-                m1t, m2t, m3t, m4t = 0, 0, 1000, 1000
+                dx = 1
             elif absoluteX > 90:
                 print("Turning sright")
-                m1t, m2t, m3t, m4t = 910, 910, 0, 0
+                dx = 4
             elif absoluteX < 90:
                 print("Turning sleft")
-                m1t, m2t, m3t, m4t = 0, 0, 700, 700
-        elif m1i == m2i == m3i == m4i == 0:
-            if absoluteX < 80:
-                print("Turning right in place")
-                m1t, m2t, m3t, m4t = 2000, 2000, -2500, -1500
-            elif absoluteX > 100:
-                print("Turning left in place")
-                m1t, m2t, m3t, m4t = -1900, -1500, 2000, 2000
+                dx = 2
         else:
             print("No turning")
-            m1t = m2t = m3t = m4t = 0
+            dx = 3
 
-        PWM.setMotorModel(m1t + m1i, m2t + m2i, m3t + m3i, m4t + m4i)
+        m1, m2, m3, m4 = motorValues[dz][dx]
+        PWM.setMotorModel(m1, m2, m3, m4)
 
 
 except KeyboardInterrupt:
