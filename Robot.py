@@ -1,37 +1,63 @@
-# from multiprocessing.shared_memory import SharedMemory
-# from BaseLibrary.Code.Server.Motor import *
+from BaseLibrary.Code.Server.Motor import*
 from cv.faceDetect import Vision
+# from rpi_ws281x import *
+from BaseLibrary.Code.Server.servo import Servo
 import time
-"""
-This shared variable will control what the robot is currently doing.
-It will be shared between the voice recognition process and polled during every robot loop.
-
-0: Following mode - Facial tracking active and robot follows
-1: Stopped mode - Facial tracking active but robot stationary
-2: Spin mode - Facial tracking inactive and robot spins
-3: Shutdown - End program
-"""
-# To access the shared memory from an external process, do
-#     shared_ptr = SharedMemory(name="mode", create=False)
-# and get the address of the buffer.
-# See: https://docs.python.org/3/library/multiprocessing.shared_memory.html
-# shared_ptr = SharedMemory(name="mode", create=True, size=1)
-# mode = shared_ptr.buf  # Access the mode by writing/reading to mode[0]
-
-# Initialize the mode to 0
-mode = 0
 
 cv = Vision()
+PWM = Motor()
+servo = Servo()
 
-# Main robot loop goes here
-while mode != 3:
-    (x, y, w, h) = cv.get_bounding_box();
-    print(f"{x}, {y}, {w}, {h}")
-    pass  # TODO
+try:
+    servo.setServoPwm('0', 90)
+    servo.setServoPwm('1', 120)
+    idleCount = 0
+    m1i = m2i = m3i = m4i = 0  # Forward/backwards values
+    m1t = m2t = m3t = m4t = 0  # Turning Values
+    # Main robot loop goes here
+    while True:
+        (x, y, w, h) = cv.get_bounding_box()
+        relativeX = cv.get_x_center() - x - w / 2
+        if (x, y, w, h) == (0, 0, 0, 0):
+            print("No face detected")
 
+        if w != 0 and abs(relativeX) >= 20:
+            if relativeX < -70:
+                print("Turning right")
+                m1t, m2t, m3t, m4t = 1400, 1400, 0, 0
+            elif relativeX > 70:
+                print("Turning left")
+                m1t, m2t, m3t, m4t = 0, 0, 1000, 1000
+            elif relativeX < 0:
+                print("Turning right")
+                m1t, m2t, m3t, m4t = 910, 910, 0, 0
+            elif relativeX > 0:
+                print("Turning left")
+                m1t, m2t, m3t, m4t = 0, 0, 700, 700
+        else:
+            print("No turning")
+            m1t = m2t = m3t = m4t = 0
 
+        if w > 100 and h > 100:
+            # Too close
+            print("Going backwards")
+            m1i, m2i, m3i, m4i = -600, -600, -600, -600
+            idleCount = 0
+        elif 0 < w < 80 and 0 < h < 80:
+            # Too far
+            print("Going forwards")
+            m1i, m2i, m3i, m4i = 600, 600, 600, 600
+            idleCount = 0
+        elif idleCount < 2:
+            print("Idling")
+            idleCount += 1
+        else:
+            print("No f/b movement")
+            m1i, m2i, m3i, m4i = 0, 0, 0, 0
+        PWM.setMotorModel(m1t + m1i, m2t + m2i, m3t + m3i, m4t + m4i)
 
-# Deinitialize shared memory on exit
-# time.sleep(5)  # Delay to ensure all processes close the shared ptr first
-# shared_ptr.close()
-# shared_ptr.unlink()
+except KeyboardInterrupt:
+    PWM.setMotorModel(0, 0, 0, 0)
+    cv.destroy()
+    servo.setServoPwm('0', 90)
+    servo.setServoPwm('1', 90)
