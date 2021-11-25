@@ -39,32 +39,12 @@ class Ultrasonic:
 
 def run_motor(PWM, L, M, R):
     if (L < 30 and M < 30 and R < 30) or M < 30:
-        PWM.setMotorModel(-1450, -1450, -1450, -1450)
-        time.sleep(0.3)
-        if L < R: # turn right first
-            PWM.setMotorModel(2000, 2000, -2500, -1500)
-            time.sleep(0.25)
-            PWM.setMotorModel(1450, 1450, 1450, 1450)
-            time.sleep(1)
-            PWM.setMotorModel(-1900, -1500, 2000, 2000)
-            time.sleep(0.5)
-            PWM.setMotorModel(1450, 1450, 1450, 1450)
-            time.sleep(1)
-            PWM.setMotorModel(2000, 2000, -2500, -1500)
-            time.sleep(0.25)
-            PWM.setMotorModel(0, 0, 0, 0)
-        else: # turn left first
-            PWM.setMotorModel(-1900, -1500, 2000, 2000)
-            time.sleep(0.25)
-            PWM.setMotorModel(1450, 1450, 1450, 1450)
-            time.sleep(1)
-            PWM.setMotorModel(2000, 2000, -2500, -1500)
-            time.sleep(0.5)
-            PWM.setMotorModel(1450, 1450, 1450, 1450)
-            time.sleep(1)
-            PWM.setMotorModel(-1900, -1500, 2000, 2000)
-            time.sleep(0.25)
-            PWM.setMotorModel(0, 0, 0, 0)
+        self.PWM.setMotorModel(-1450, -1450, -1450, -1450)
+        time.sleep(0.1)
+        if L < R:
+            self.PWM.setMotorModel(1450, 1450, -1450, -1450)
+        else:
+            self.PWM.setMotorModel(-1450, -1450, 1450, 1450)
     elif L < 30 and M < 30:
         PWM.setMotorModel(1500, 1500, -1500, -1500)
     elif R < 30 and M < 30:
@@ -78,7 +58,7 @@ def run_motor(PWM, L, M, R):
         if R < 10:
             PWM.setMotorModel(-1500, -1500, 1500, 1500)
     else:
-        PWM.setMotorModel(600, 600, 600, 600)
+        self.PWM.setMotorModel(600, 600, 600, 600)
 
 # trigger pin, echo pin
 ultrasonicL = Ultrasonic(9, 25)
@@ -95,7 +75,7 @@ if __name__ == '__main__':
             R = ultrasonicR.get_distance()
             M = ultrasonicM.get_distance()
             run_motor(PWM, L, M, R)
-            time.sleep(0.3)
+            time.sleep(0.2)
 
     # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
     except KeyboardInterrupt:
