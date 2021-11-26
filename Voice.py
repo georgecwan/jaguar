@@ -46,9 +46,9 @@ class Voice:
 
 
 if __name__ == "__main__":
-    subprocess.Popen(["voice2json", "wait-wake", "--exit-count", "1"], shell=True)
+    subprocess.Popen(["voice2json", "-p", "en-us_kaldi-zamia", "wait-wake", "--exit-count", "1"], shell=True)
     print("Wake received")
-    voice_command = subprocess.Popen(['voice2json', 'transcribe-stream', '--exit-count', '1', '|', 'voice2json', 'recognize-intent'],
+    voice_command = subprocess.Popen(['voice2json', "-p", "en-us_kaldi-zamia", 'transcribe-stream', '--exit-count', '1', '|', 'voice2json', "-p", "en-us_kaldi-zamia", 'recognize-intent'],
                                              shell=True, stdout=subprocess.PIPE, universal_newlines=True)
     for stdout_line in iter(voice_command.stdout.readline, ""):
         print(stdout_line)
