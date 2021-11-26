@@ -145,12 +145,11 @@ try:
         elif mode[0] == 0:
             # Stop and do nothing
             PWM.setMotorModel(0, 0, 0, 0)
-            time.sleep(5)
 
         elif mode[0] == 2:
             # Turn for one second, then return to idle
-            PWM.setMotorModel(2000, 2000, -1500, -1500)
-            time.sleep(1)
+            PWM.setMotorModel(-1900, -1500, 2000, 2000)
+            time.sleep(1.5)
             PWM.setMotorModel(0, 0, 0, 0)
             mode[0] = 0
 
@@ -170,6 +169,6 @@ except KeyboardInterrupt:
     cv.destroy()
     servo.setServoPwm('0', 90)
     servo.setServoPwm('1', 90)
-    threading.Thread(target=voice.stop()).start()
+    voice.stop()
     time.sleep(3)
     shared_mode.unlink()
