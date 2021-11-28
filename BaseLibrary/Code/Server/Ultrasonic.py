@@ -1,8 +1,8 @@
-import time
-from Motor import *
+from BaseLibrary.Code.Server.Motor import*
+from BaseLibrary.Code.Server.servo import *
+from BaseLibrary.Code.Server.PCA9685 import PCA9685
 import RPi.GPIO as GPIO
-from servo import *
-from PCA9685 import PCA9685
+import time
 
 
 class Ultrasonic:
