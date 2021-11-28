@@ -1,5 +1,5 @@
 import time
-from PCA9685 import PCA9685
+from BaseLibrary.Code.Server.PCA9685 import PCA9685
 class Motor:
     def __init__(self):
         self.pwm = PCA9685(0x40, debug=True)
@@ -82,9 +82,9 @@ def loop():
     time.sleep(3)
     PWM.setMotorModel(-2000,-2000,-2000,-2000)   #Back
     time.sleep(3)
-    PWM.setMotorModel(-500,-500,500,500)       #Left 
+    PWM.setMotorModel(-500,-500,500,500)         #Left
     time.sleep(3)
-    PWM.setMotorModel(500,500,-500,-500)       #Right    
+    PWM.setMotorModel(500,500,-500,-500)         #Right
     time.sleep(3)
     PWM.setMotorModel(0,0,0,0)                   #Stop
     
