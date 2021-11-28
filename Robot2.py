@@ -11,11 +11,12 @@ import Voice
 # 1 = follow human
 # 2 = spin
 # 3 = buzzer
+# 4 = bad dog
 # mode is a shared memory buffer and index 0 contains the mode
 # Access and modify with mode[0]
 shared_mode = SharedMemory('mode', True, 1)
 mode = shared_mode.buf
-mode[0] = 1
+mode[0] = 0
 
 # Voice class
 voice = Voice.Voice('mode')
@@ -162,6 +163,15 @@ try:
             GPIO.output(Buzzer_Pin, True)
             time.sleep(1.5)
             GPIO.output(Buzzer_Pin, False)
+            mode[0] = 0
+
+        elif mode[0] == 4:
+            # Look down and back slowly for 2 seconds
+            servo.setServoPwm('1', 60)
+            PWM.setMotorModel(-600, -600, -600, -600)
+            time.sleep(2)
+            PWM.setMotorModel(0, 0, 0, 0)
+            servo.setServoPwm('1', 90)
             mode[0] = 0
 
 

@@ -31,6 +31,8 @@ class Voice:
                         self.shared_mode.buf[0] = 2
                     elif func_name == "Speak":
                         self.shared_mode.buf[0] = 3
+                    elif func_name == "BadDog":
+                        self.shared_mode.buf[0] = 4
             self.script_helper.stdout.close()
 
     def stop(self):
