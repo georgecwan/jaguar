@@ -18,7 +18,7 @@ import time
 # Access and modify with mode[0]
 shared_mode = SharedMemory('mode', True, 1)
 mode = shared_mode.buf
-mode[0] = 1
+mode[0] = 0
 
 # Voice class
 voice = Voice.Voice('mode')
