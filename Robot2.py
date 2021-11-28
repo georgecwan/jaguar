@@ -14,6 +14,7 @@ import time
 # 1 = follow human
 # 2 = spin
 # 3 = buzzer
+# 4 = bad dog
 # mode is a shared memory buffer and index 0 contains the mode
 # Access and modify with mode[0]
 shared_mode = SharedMemory('mode', True, 1)
@@ -216,6 +217,15 @@ try:
             GPIO.output(Buzzer_Pin, False)
             mode[0] = 0
 
+        elif mode[0] == 4:
+            # Look down and back up for 2 seconds
+            servo.setServoPwm('1', 60)
+            servo.setServoPwm('0', 90)
+            PWM.setMotorModel(-600, -600, -600, -600)
+            time.sleep(2)
+            PWM.setMotorModel(0, 0, 0, 0)
+            servo.setServoPwm('1', 90)
+            mode[0] = 0
 
 except KeyboardInterrupt:
     # Reset motors and servos on completion
