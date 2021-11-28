@@ -2,16 +2,18 @@ from BaseLibrary.Code.Server.Motor import*
 from cv.faceDetect import Vision
 from BaseLibrary.Code.Server.servo import Servo
 from multiprocessing.shared_memory import SharedMemory
+from BaseLibrary.Code.Server.Ultrasonic import Ultrasonic
 import threading
 import RPi.GPIO as GPIO
 import Voice
+import time
+
 
 # This variable determines what the robot will do
 # 0 = stop
 # 1 = follow human
 # 2 = spin
 # 3 = buzzer
-# 4 = bad dog
 # mode is a shared memory buffer and index 0 contains the mode
 # Access and modify with mode[0]
 shared_mode = SharedMemory('mode', True, 1)
@@ -24,6 +26,7 @@ voice = Voice.Voice('mode')
 # Spawn a new thread to run the voice recognition
 # This thread will run until the program is closed
 threading.Thread(target=voice.start).start()
+
 
 # Variables for motors, servos, and CV
 cv = Vision()
@@ -56,95 +59,136 @@ try:
     idleTurn = 5
     dz = 0  # Forward/backwards values
     dx = 0  # Turning Values
+    ultrasonicL = Ultrasonic(9, 25)
+    ultrasonicR = Ultrasonic(11, 8)
+    # ultrasonicM = Ultrasonic(27, 22)
 
-    # Main robot loop goes here
+  # Main robot loop goes here
     while True:
         if mode[0] == 1:
             # Servo Adjustment code
-            (x, y, w, h) = cv.get_bounding_box()
-            if (x, y, w, h) == (0, 0, 0, 0):
-                relativeX = 0
-                relativeY = 0
-                absoluteX = 90
-                print("No face detected")
+            L = ultrasonicL.get_distance()
+            R = ultrasonicR.get_distance()
+            if (L < 40 and R < 40):
+                PWM.setMotorModel(-1450, -1450, -1450, -1450)
+                time.sleep(0.1)
+                if L < R:
+                    PWM.setMotorModel(1450, 1450, -1450, -1450)
+                    time.sleep(0.2)
+
+                else:
+                    PWM.setMotorModel(-1450, -1450, 1450, 1450)
+                    time.sleep(0.2)
+
+            elif L < 30:
+                PWM.setMotorModel(2000, 2000, -500, -500)
+                time.sleep(0.2)
+
+                if L < 20:
+                    PWM.setMotorModel(1500, 1500, -1000, -1000)
+                    time.sleep(0.2)
+
+            elif R < 30:
+                PWM.setMotorModel(-500, -500, 2000, 2000)
+                time.sleep(0.2)
+
+                if R < 20:
+                    PWM.setMotorModel(-1500, -1500, 1500, 1500)
+                    time.sleep(0.2)
+
+            elif L < 40:
+                PWM.setMotorModel(1500, 1500, -1500, -1500)
+                time.sleep(0.2)
+
+            elif R < 40:
+                PWM.setMotorModel(-1500, -1500, 1500, 1500)
+                time.sleep(0.2)
+
             else:
-                relativeX = cv.get_x_center() - x - w / 2  # Left (+), Right (-)
-                relativeY = cv.get_y_center() - y - h / 2  # Up (+), Down (-)
-            if w != 0 and h != 0 and delay == 0:
-                temp = h_angle
-                h_angle -= cv.get_horizontal_angle(relativeX) / 2.5
-                v_angle += cv.get_vertical_angle(relativeY) / 2.5
-                delay += 1
-                absoluteX = temp - cv.get_horizontal_angle(relativeX)
-            elif w != 0 and h != 0:
-                delay = 0
-            elif delay > 5:
-                if h_angle != 90:
-                    if h_angle >= 135:
-                        idleTurn = -5
-                    if h_angle <= 45:
-                        idleTurn = 5
-                    h_angle += idleTurn
-                if v_angle != 120:
-                    v_angle += 1 if v_angle < 120 else -1
-            else:
-                delay += 1
+                (x, y, w, h) = cv.get_bounding_box()
+                if (x, y, w, h) == (0, 0, 0, 0):
+                    relativeX = 0
+                    relativeY = 0
+                    absoluteX = 90
+                    print("No face detected")
+                else:
+                    relativeX = cv.get_x_center() - x - w / 2  # Left (+), Right (-)
+                    relativeY = cv.get_y_center() - y - h / 2  # Up (+), Down (-)
+                if w != 0 and h != 0 and delay == 0:
+                    temp = h_angle
+                    h_angle -= cv.get_horizontal_angle(relativeX) / 2.5
+                    v_angle += cv.get_vertical_angle(relativeY) / 2.5
+                    delay += 1
+                    absoluteX = temp - cv.get_horizontal_angle(relativeX)
+                elif w != 0 and h != 0:
+                    delay = 0
+                elif delay > 5:
+                    if h_angle != 90:
+                        if h_angle >= 135:
+                            idleTurn = -5
+                        if h_angle <= 45:
+                            idleTurn = 5
+                        h_angle += idleTurn
+                    if v_angle != 120:
+                        v_angle += 1 if v_angle < 120 else -1
+                else:
+                    delay += 1
 
-            if h_angle < 20:
-                h_angle = 20
-            elif h_angle > 160:
-                h_angle = 160
-            if v_angle < 90:
-                v_angle = 90
-            elif v_angle > 150:
-                v_angle = 150
+                if h_angle < 20:
+                    h_angle = 20
+                elif h_angle > 160:
+                    h_angle = 160
+                if v_angle < 90:
+                    v_angle = 90
+                elif v_angle > 150:
+                    v_angle = 150
 
-            servo.setServoPwm('0', h_angle)
-            servo.setServoPwm('1', v_angle)
+                servo.setServoPwm('0', h_angle)
+                servo.setServoPwm('1', v_angle)
 
-            # Motor code
-            if (w > 90 and h > 90) or v_angle > 155:
-                # Too close
-                print("Going backwards")
-                dz = 2
-                idleCount = 0
-            elif 0 < w < 70 and 0 < h < 70:
-                # Too far
-                print("Going forwards")
-                dz = 0
-                idleCount = 0
-            elif idleCount < 2:
-                print("Idling")
-                idleCount += 1
-            else:
-                print("No f/b movement")
-                dz = 1
+                # Motor code
+                if (w > 90 and h > 90) or v_angle > 155:
+                    # Too close
+                    print("Going backwards")
+                    dz = 2
+                    idleCount = 0
+                elif 0 < w < 70 and 0 < h < 70:
+                    # Too far
+                    print("Going forwards")
+                    dz = 0
+                    idleCount = 0
+                elif idleCount < 2:
+                    print("Idling")
+                    idleCount += 1
+                else:
+                    print("No f/b movement")
+                    dz = 1
 
-            if w != 0 and h != 0 and abs(absoluteX - 90) > 0:
-                if absoluteX > 110:
-                    print("Turning eright")
-                    dx = 6
-                elif absoluteX < 70:
-                    print("Turning eleft")
-                    dx = 0
-                elif absoluteX > 100:
-                    print("Turning vright")
-                    dx = 5
-                elif absoluteX < 80:
-                    print("Turning vleft")
-                    dx = 1
-                elif absoluteX > 90:
-                    print("Turning sright")
-                    dx = 4
-                elif absoluteX < 90:
-                    print("Turning sleft")
-                    dx = 2
-            else:
-                print("No turning")
-                dx = 3
+                if w != 0 and h != 0 and abs(absoluteX - 90) > 0:
+                    if absoluteX > 110:
+                        print("Turning eright")
+                        dx = 6
+                    elif absoluteX < 70:
+                        print("Turning eleft")
+                        dx = 0
+                    elif absoluteX > 100:
+                        print("Turning vright")
+                        dx = 5
+                    elif absoluteX < 80:
+                        print("Turning vleft")
+                        dx = 1
+                    elif absoluteX > 90:
+                        print("Turning sright")
+                        dx = 4
+                    elif absoluteX < 90:
+                        print("Turning sleft")
+                        dx = 2
+                else:
+                    print("No turning")
+                    dx = 3
 
-            m1, m2, m3, m4 = motorValues[dz][dx]
-            PWM.setMotorModel(m1, m2, m3, m4)
+                    m1, m2, m3, m4 = motorValues[dz][dx]
+                    PWM.setMotorModel(m1, m2, m3, m4)
 
         elif mode[0] == 0:
             # Stop and do nothing
@@ -153,7 +197,7 @@ try:
         elif mode[0] == 2:
             # Turn for one second, then return to idle
             PWM.setMotorModel(-1900, -1500, 2000, 2000)
-            time.sleep(1.822)
+            time.sleep(2)
             PWM.setMotorModel(0, 0, 0, 0)
             mode[0] = 0
 
@@ -163,15 +207,6 @@ try:
             GPIO.output(Buzzer_Pin, True)
             time.sleep(1.5)
             GPIO.output(Buzzer_Pin, False)
-            mode[0] = 0
-
-        elif mode[0] == 4:
-            # Look down and back slowly for 2 seconds
-            servo.setServoPwm('1', 60)
-            PWM.setMotorModel(-600, -600, -600, -600)
-            time.sleep(2)
-            PWM.setMotorModel(0, 0, 0, 0)
-            servo.setServoPwm('1', 90)
             mode[0] = 0
 
 

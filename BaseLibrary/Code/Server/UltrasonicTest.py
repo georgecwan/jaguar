@@ -1,6 +1,4 @@
-from BaseLibrary.Code.Server.Motor import*
-from BaseLibrary.Code.Server.servo import *
-from BaseLibrary.Code.Server.PCA9685 import PCA9685
+from PCA9685 import PCA9685
 import RPi.GPIO as GPIO
 import time
 
@@ -38,30 +36,6 @@ class Ultrasonic:
         return int(distance_cm[2])
 
 
-def run_motor(PWM, L, M, R):
-    if (L < 30 and M < 34 and R < 30) or M < 34:
-        PWM.setMotorModel(-1450, -1450, -1450, -1450)
-        time.sleep(0.1)
-        if L < R:
-            PWM.setMotorModel(1450, 1450, -1450, -1450)
-        else:
-            PWM.setMotorModel(-1450, -1450, 1450, 1450)
-    elif L < 30 and M < 34:
-        PWM.setMotorModel(1500, 1500, -1500, -1500)
-    elif R < 30 and M < 34:
-        PWM.setMotorModel(-1500, -1500, 1500, 1500)
-    elif L < 20:
-        PWM.setMotorModel(2000, 2000, -500, -500)
-        if L < 10:
-            PWM.setMotorModel(1500, 1500, -1000, -1000)
-    elif R < 20:
-        PWM.setMotorModel(-500, -500, 2000, 2000)
-        if R < 10:
-            PWM.setMotorModel(-1500, -1500, 1500, 1500)
-    else:
-        PWM.setMotorModel(600, 600, 600, 600)
-
-
 # trigger pin, echo pin
 ultrasonicL = Ultrasonic(9, 25)
 ultrasonicR = Ultrasonic(11, 8)
@@ -70,15 +44,14 @@ ultrasonicM = Ultrasonic(27, 22)
 # Main program logic follows:
 if __name__ == '__main__':
     print('Program is starting ... ')
-    PWM = Motor()
     try:
         while True:
             L = ultrasonicL.get_distance()
             R = ultrasonicR.get_distance()
             M = ultrasonicM.get_distance()
-            run_motor(PWM, L, M, R)
+            print(f"Left: {L}, Right: {R}, Middle: {M}")
             time.sleep(0.2)
 
     # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
     except KeyboardInterrupt:
-        PWM.setMotorModel(0, 0, 0, 0)
+        pass
