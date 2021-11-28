@@ -69,7 +69,14 @@ try:
             # Servo Adjustment code
             L = ultrasonicL.get_distance()
             R = ultrasonicR.get_distance()
-            if (L < 40 and R < 40):
+            L2 = ultrasonicL.get_distance()
+            R2 = ultrasonicR.get_distance()
+            if L2 > L:
+                L = L2
+            if R2 > R:
+                R = R2
+            print(f"Left: {L}, Right: {R}")
+            if (L < 30 and R < 30):
                 PWM.setMotorModel(-1450, -1450, -1450, -1450)
                 time.sleep(0.1)
                 if L < R:
@@ -80,27 +87,27 @@ try:
                     PWM.setMotorModel(-1450, -1450, 1450, 1450)
                     time.sleep(0.2)
 
-            elif L < 30:
+            elif L < 20:
                 PWM.setMotorModel(2000, 2000, -500, -500)
                 time.sleep(0.2)
 
-                if L < 20:
+                if L < 10:
                     PWM.setMotorModel(1500, 1500, -1000, -1000)
                     time.sleep(0.2)
 
-            elif R < 30:
+            elif R < 20:
                 PWM.setMotorModel(-500, -500, 2000, 2000)
                 time.sleep(0.2)
 
-                if R < 20:
+                if R < 10:
                     PWM.setMotorModel(-1500, -1500, 1500, 1500)
                     time.sleep(0.2)
 
-            elif L < 40:
+            elif L < 30:
                 PWM.setMotorModel(1500, 1500, -1500, -1500)
                 time.sleep(0.2)
 
-            elif R < 40:
+            elif R < 30:
                 PWM.setMotorModel(-1500, -1500, 1500, 1500)
                 time.sleep(0.2)
 
@@ -110,7 +117,7 @@ try:
                     relativeX = 0
                     relativeY = 0
                     absoluteX = 90
-                    print("No face detected")
+                    # print("No face detected")
                 else:
                     relativeX = cv.get_x_center() - x - w / 2  # Left (+), Right (-)
                     relativeY = cv.get_y_center() - y - h / 2  # Up (+), Down (-)
@@ -149,46 +156,46 @@ try:
                 # Motor code
                 if (w > 90 and h > 90) or v_angle > 155:
                     # Too close
-                    print("Going backwards")
+                    #print("Going backwards")
                     dz = 2
                     idleCount = 0
                 elif 0 < w < 70 and 0 < h < 70:
                     # Too far
-                    print("Going forwards")
+                    #print("Going forwards")
                     dz = 0
                     idleCount = 0
                 elif idleCount < 2:
-                    print("Idling")
+                    #print("Idling")
                     idleCount += 1
                 else:
-                    print("No f/b movement")
+                    #print("No f/b movement")
                     dz = 1
 
                 if w != 0 and h != 0 and abs(absoluteX - 90) > 0:
                     if absoluteX > 110:
-                        print("Turning eright")
+                        #print("Turning eright")
                         dx = 6
                     elif absoluteX < 70:
-                        print("Turning eleft")
+                        #print("Turning eleft")
                         dx = 0
                     elif absoluteX > 100:
-                        print("Turning vright")
+                        #print("Turning vright")
                         dx = 5
                     elif absoluteX < 80:
-                        print("Turning vleft")
+                        #print("Turning vleft")
                         dx = 1
                     elif absoluteX > 90:
-                        print("Turning sright")
+                        #print("Turning sright")
                         dx = 4
                     elif absoluteX < 90:
-                        print("Turning sleft")
+                        #print("Turning sleft")
                         dx = 2
                 else:
-                    print("No turning")
+                    #print("No turning")
                     dx = 3
 
-                    m1, m2, m3, m4 = motorValues[dz][dx]
-                    PWM.setMotorModel(m1, m2, m3, m4)
+                m1, m2, m3, m4 = motorValues[dz][dx]
+                PWM.setMotorModel(m1, m2, m3, m4)
 
         elif mode[0] == 0:
             # Stop and do nothing
