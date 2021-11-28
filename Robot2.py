@@ -61,7 +61,7 @@ try:
     dx = 0  # Turning Values
     ultrasonicL = Ultrasonic(9, 25)
     ultrasonicR = Ultrasonic(11, 8)
-    ultrasonicM = Ultrasonic(27, 22)
+    # ultrasonicM = Ultrasonic(27, 22)
 
   # Main robot loop goes here
     while True:
@@ -75,20 +75,36 @@ try:
                 time.sleep(0.1)
                 if L < R:
                     PWM.setMotorModel(1450, 1450, -1450, -1450)
+                    time.sleep(0.2)
+
                 else:
                     PWM.setMotorModel(-1450, -1450, 1450, 1450)
+                    time.sleep(0.2)
+
             elif L < 40 and M < 44:
                 PWM.setMotorModel(1500, 1500, -1500, -1500)
+                time.sleep(0.2)
+
             elif R < 40 and M < 44:
                 PWM.setMotorModel(-1500, -1500, 1500, 1500)
+                time.sleep(0.2)
+
             elif L < 30:
                 PWM.setMotorModel(2000, 2000, -500, -500)
+                time.sleep(0.2)
+
                 if L < 20:
                     PWM.setMotorModel(1500, 1500, -1000, -1000)
+                    time.sleep(0.2)
+
             elif R < 30:
                 PWM.setMotorModel(-500, -500, 2000, 2000)
+                time.sleep(0.2)
+
                 if R < 20:
                     PWM.setMotorModel(-1500, -1500, 1500, 1500)
+                    time.sleep(0.2)
+
             else:
                 (x, y, w, h) = cv.get_bounding_box()
                 if (x, y, w, h) == (0, 0, 0, 0):
@@ -174,7 +190,6 @@ try:
 
                     m1, m2, m3, m4 = motorValues[dz][dx]
                     PWM.setMotorModel(m1, m2, m3, m4)
-                    time.sleep(0.2)
 
         elif mode[0] == 0:
             # Stop and do nothing
