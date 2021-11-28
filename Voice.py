@@ -8,6 +8,8 @@ class Voice:
     def __init__(self, shared_memory_name):
         self.shared_mode = SharedMemory(name=shared_memory_name, create=False)
         self.state = False
+        self.script_helper = None
+        self.wake_wait = None
 
     def start(self):
         # Start the wake word detection and the speech recognition.
@@ -20,17 +22,14 @@ class Voice:
             # These two commands are blocking
             # The first command waits for a wake word then exits
             # The second command listens for the actual command, parses it, and exits
-            subprocess.Popen(["/usr/bin/voice2json", "-p", "/home/pi/.local/share/voice2json/en-us_kaldi-zamia", "wait-wake", "--exit-count", "1"]).wait()
+            self.wait_wait = subprocess.Popen(["/usr/bin/voice2json", "-p", "/home/pi/.local/share/voice2json/en-us_kaldi-zamia", "wait-wake", "--exit-count", "1"]).wait()
             
-            # Tell the care to stop while the system is running
+            # Tell the car to stop while the system is running
             self.shared_mode.buf[0] = 0
-            script_helper = subprocess.Popen(["./voice_helper.sh"], stdout=subprocess.PIPE, universal_newlines=True)
-            
-            voice_command = subprocess.Popen(['voice2json', 'transcribe-stream', '--exit-count', '1', '|', 'voice2json', 'recognize-intent'],
-                                             shell=True, stdout=subprocess.PIPE, universal_newlines=True)
+            self.script_helper = subprocess.Popen(["./voice_helper.sh"], stdout=subprocess.PIPE, universal_newlines=True)
 
             # Read the output of the speech recognition
-            for stdout_line in iter(voice_command.stdout.readline, ""):
+            for stdout_line in iter(self.script_helper.stdout.readline, ""):
                 if "Command: " in stdout_line:
                     func_name = stdout_line.split()[1]
                     if func_name == "SitDown":
@@ -41,10 +40,15 @@ class Voice:
                         self.shared_mode.buf[0] = 2
                     elif func_name == "Speak":
                         self.shared_mode.buf[0] = 3
-            voice_command.stdout.close()
+            self.script_helper.stdout.close()
 
     def stop(self):
         self.state = False
+        if self.script_helper is not None:
+            self.script_helper.terminate()
+        if self.wake_wait is not None:
+            self.wake_wait.terminate()
+        time.sleep(3)
         self.shared_mode.close()
 
 

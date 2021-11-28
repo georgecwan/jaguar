@@ -149,7 +149,7 @@ try:
         elif mode[0] == 2:
             # Turn for one second, then return to idle
             PWM.setMotorModel(-1900, -1500, 2000, 2000)
-            time.sleep(1.5)
+            time.sleep(2)
             PWM.setMotorModel(0, 0, 0, 0)
             mode[0] = 0
 
@@ -157,7 +157,7 @@ try:
             # Stop and buzz for 3 seconds
             PWM.setMotorModel(0, 0, 0, 0)
             GPIO.output(Buzzer_Pin, True)
-            time.sleep(3)
+            time.sleep(1.5)
             GPIO.output(Buzzer_Pin, False)
             mode[0] = 0
 
@@ -170,5 +170,4 @@ except KeyboardInterrupt:
     servo.setServoPwm('0', 90)
     servo.setServoPwm('1', 90)
     voice.stop()
-    time.sleep(3)
     shared_mode.unlink()
