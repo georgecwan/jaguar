@@ -53,9 +53,7 @@ class Voice:
 
 
 if __name__ == "__main__":
-    subprocess.Popen(["/usr/bin/voice2json", "-p", "/home/pi/.local/share/voice2json/en-us_kaldi-zamia", "wait-wake", "--exit-count", "1"]).wait()
     script_helper = subprocess.Popen(["./voice_helper.sh"], stdout=subprocess.PIPE, universal_newlines=True)
-    time.sleep(3)
     for stdout_line in iter(script_helper.stdout.readline, ""):
         if "Command: " in stdout_line:
             print(stdout_line.split()[1])
