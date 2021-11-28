@@ -37,14 +37,15 @@ class Ultrasonic:
         distance_cm = sorted(distance_cm)
         return int(distance_cm[2])
 
+
 def run_motor(PWM, L, M, R):
     if (L < 30 and M < 34 and R < 30) or M < 34:
-        self.PWM.setMotorModel(-1450, -1450, -1450, -1450)
+        PWM.setMotorModel(-1450, -1450, -1450, -1450)
         time.sleep(0.1)
         if L < R:
-            self.PWM.setMotorModel(1450, 1450, -1450, -1450)
+            PWM.setMotorModel(1450, 1450, -1450, -1450)
         else:
-            self.PWM.setMotorModel(-1450, -1450, 1450, 1450)
+            PWM.setMotorModel(-1450, -1450, 1450, 1450)
     elif L < 30 and M < 34:
         PWM.setMotorModel(1500, 1500, -1500, -1500)
     elif R < 30 and M < 34:
@@ -58,7 +59,8 @@ def run_motor(PWM, L, M, R):
         if R < 10:
             PWM.setMotorModel(-1500, -1500, 1500, 1500)
     else:
-        self.PWM.setMotorModel(600, 600, 600, 600)
+        PWM.setMotorModel(600, 600, 600, 600)
+
 
 # trigger pin, echo pin
 ultrasonicL = Ultrasonic(9, 25)
