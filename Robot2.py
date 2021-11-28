@@ -69,7 +69,6 @@ try:
             # Servo Adjustment code
             L = ultrasonicL.get_distance()
             R = ultrasonicR.get_distance()
-            M = ultrasonicM.get_distance()
             if (L < 40 and R < 40):
                 PWM.setMotorModel(-1450, -1450, -1450, -1450)
                 time.sleep(0.1)
