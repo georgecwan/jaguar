@@ -152,7 +152,7 @@ try:
         elif mode[0] == 2:
             # Turn for one second, then return to idle
             PWM.setMotorModel(-1900, -1500, 2000, 2000)
-            time.sleep(2)
+            time.sleep(1.822)
             PWM.setMotorModel(0, 0, 0, 0)
             mode[0] = 0
 
