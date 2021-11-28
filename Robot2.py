@@ -2,9 +2,12 @@ from BaseLibrary.Code.Server.Motor import*
 from cv.faceDetect import Vision
 from BaseLibrary.Code.Server.servo import Servo
 from multiprocessing.shared_memory import SharedMemory
+from BaseLibrary.Code.Server.Ultrasonic import Ultrasonic
 import threading
 import RPi.GPIO as GPIO
 import Voice
+import time
+
 
 # This variable determines what the robot will do
 # 0 = stop
@@ -23,6 +26,7 @@ voice = Voice.Voice('mode')
 # Spawn a new thread to run the voice recognition
 # This thread will run until the program is closed
 threading.Thread(target=voice.start).start()
+
 
 # Variables for motors, servos, and CV
 cv = Vision()
@@ -55,13 +59,41 @@ try:
     idleTurn = 5
     dz = 0  # Forward/backwards values
     dx = 0  # Turning Values
+    ultrasonicL = Ultrasonic(9, 25)
+    ultrasonicR = Ultrasonic(11, 8)
+    ultrasonicM = Ultrasonic(27, 22)
 
-    # Main robot loop goes here
+  # Main robot loop goes here
     while True:
         if mode[0] == 1:
             # Servo Adjustment code
-            (x, y, w, h) = cv.get_bounding_box()
-            if (x, y, w, h) == (0, 0, 0, 0):
+            L = ultrasonicL.get_distance()
+            R = ultrasonicR.get_distance()
+            M = ultrasonicM.get_distance()
+            if (L < 30 and M < 34 and R < 30) or M < 34:
+        PWM.setMotorModel(-1450, -1450, -1450, -1450)
+        time.sleep(0.1)
+        if L < R:
+            PWM.setMotorModel(1450, 1450, -1450, -1450)
+        else:
+            PWM.setMotorModel(-1450, -1450, 1450, 1450)
+    elif L < 30 and M < 34:
+        PWM.setMotorModel(1500, 1500, -1500, -1500)
+    elif R < 30 and M < 34:
+        PWM.setMotorModel(-1500, -1500, 1500, 1500)
+    elif L < 20:
+        PWM.setMotorModel(2000, 2000, -500, -500)
+        if L < 10:
+            PWM.setMotorModel(1500, 1500, -1000, -1000)
+    elif R < 20:
+        PWM.setMotorModel(-500, -500, 2000, 2000)
+        if R < 10:
+            PWM.setMotorModel(-1500, -1500, 1500, 1500)
+    else:
+        PWM.setMotorModel(600, 600, 600, 600)
+         time.sleep(0.2)
+          (x, y, w, h) = cv.get_bounding_box()
+           if (x, y, w, h) == (0, 0, 0, 0):
                 relativeX = 0
                 relativeY = 0
                 absoluteX = 90
@@ -142,8 +174,8 @@ try:
                 print("No turning")
                 dx = 3
 
-            m1, m2, m3, m4 = motorValues[dz][dx]
-            PWM.setMotorModel(m1, m2, m3, m4)
+                m1, m2, m3, m4 = motorValues[dz][dx]
+                PWM.setMotorModel(m1, m2, m3, m4)
 
         elif mode[0] == 0:
             # Stop and do nothing
