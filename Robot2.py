@@ -70,7 +70,7 @@ try:
             L = ultrasonicL.get_distance()
             R = ultrasonicR.get_distance()
             M = ultrasonicM.get_distance()
-            if (L < 40 and M < 44 and R < 40) or M < 44:
+            if (L < 40 and R < 40):
                 PWM.setMotorModel(-1450, -1450, -1450, -1450)
                 time.sleep(0.1)
                 if L < R:
@@ -80,14 +80,6 @@ try:
                 else:
                     PWM.setMotorModel(-1450, -1450, 1450, 1450)
                     time.sleep(0.2)
-
-            elif L < 40 and M < 44:
-                PWM.setMotorModel(1500, 1500, -1500, -1500)
-                time.sleep(0.2)
-
-            elif R < 40 and M < 44:
-                PWM.setMotorModel(-1500, -1500, 1500, 1500)
-                time.sleep(0.2)
 
             elif L < 30:
                 PWM.setMotorModel(2000, 2000, -500, -500)
@@ -104,6 +96,14 @@ try:
                 if R < 20:
                     PWM.setMotorModel(-1500, -1500, 1500, 1500)
                     time.sleep(0.2)
+
+            elif L < 40:
+                PWM.setMotorModel(1500, 1500, -1500, -1500)
+                time.sleep(0.2)
+
+            elif R < 40:
+                PWM.setMotorModel(-1500, -1500, 1500, 1500)
+                time.sleep(0.2)
 
             else:
                 (x, y, w, h) = cv.get_bounding_box()
