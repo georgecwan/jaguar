@@ -5,8 +5,10 @@ import imutils
 
 class Vision:
     def __init__(self):
-        self.faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+        self.faceCascade = cv2.CascadeClassifier('/home/pi/jaghr-jaguar/cv/Cascades/haarcascade_frontalface_default.xml')
         self.cap = cv2.VideoCapture(0)
+        self.cap.set(3, 640)
+        self.cap.set(4, 480)
 
     def get_x_center(self):
         return self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)/2
@@ -54,12 +56,12 @@ class Vision:
 
 # Testing code
 if __name__ == "__main__":
-    faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+    faceCascade = cv2.CascadeClassifier('/home/pi/jaghr-jaguar/cv/Cascades/haarcascade_frontalface_default.xml')
     cap = cv2.VideoCapture(0)
 
     # print(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    # cap.set(3, 640) # set Width
-    # cap.set(4, 480) # set Height
+    cap.set(3, 640) # set Width
+    cap.set(4, 480) # set Height
     while True:
         ret, img = cap.read()
         # img = cv2.flip(img, -1)
