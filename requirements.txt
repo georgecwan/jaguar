@@ -5,3 +5,4 @@ opencv-python-headless==4.10.0.84
 Pillow==10.3.0
 PyQt5==5.15.11
 PyQt5-sip==12.13.0
+PyQt5-sip==12.15.0
